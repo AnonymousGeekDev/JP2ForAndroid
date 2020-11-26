@@ -7,9 +7,22 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.Executor;
+
+import kotlin.coroutines.CoroutineContext;
+import kotlinx.coroutines.CancellableContinuation;
+import kotlinx.coroutines.CoroutineDispatcher;
+import kotlinx.coroutines.CoroutineScope;
+import kotlinx.coroutines.CoroutineScopeKt;
+import kotlinx.coroutines.Dispatchers;
+import kotlinx.coroutines.DispatchersKt;
+import kotlinx.coroutines.MainCoroutineDispatcher;
+import kotlinx.coroutines.internal.MainDispatchersKt;
 
 /**
  * JPEG-2000 bitmap decoder. The supported data formats are: JP2 (standard JPEG-2000 file format) and J2K
@@ -240,6 +253,7 @@ public class JP2Decoder {
         }
         return true;
     }
+    
 
     private static native int[] decodeJP2File(String filename, int reduce, int layers);
     private static native int[] decodeJP2ByteArray(byte[] data, int reduce, int layers);

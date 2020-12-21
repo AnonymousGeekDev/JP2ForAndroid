@@ -2,8 +2,9 @@ package com.gemalto.jp2;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +31,29 @@ public class TestJp2Decoder {
 
     @Before
     public void init() {
-        ctx = InstrumentationRegistry.getTargetContext();
+        ctx = ApplicationProvider.getApplicationContext();
         util = new Util(ctx);
+    }
+
+    /*
+     * Test that the JP2Decoder.isJPEG2000() method works properly for both valid and invalid data.
+     */
+    @Test
+    public void testIsJPEG2000() throws Exception {
+        byte[] data;
+
+        data = util.loadAssetFile("lena.jp2");
+        assertTrue("jp2 file not detected as jpeg 2000", JP2Decoder.isJPEG2000(data));
+        data = util.loadAssetFile("lena.j2k");
+        assertTrue("j2k file not detected as jpeg 2000", JP2Decoder.isJPEG2000(data));
+        data = util.loadAssetFile("lena.png");
+        assertFalse("png file detected as jpeg 2000", JP2Decoder.isJPEG2000(data));
+        data = null;
+        assertFalse("null data detected as jpeg 2000", JP2Decoder.isJPEG2000(data));
+        data = new byte[0];
+        assertFalse("empty data detected as jpeg 2000", JP2Decoder.isJPEG2000(data));
+        data = new byte[1];
+        assertFalse("short invalid data detected as jpeg 2000", JP2Decoder.isJPEG2000(data));
     }
 
     /*

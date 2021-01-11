@@ -4,11 +4,11 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.gemalto.jp2.JP2Decoder;
 
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     private class DecodeJp2AsyncTask extends AsyncTask<Void, Void, Bitmap> {
         private ImageView view;
         private int width, height;
